@@ -1,0 +1,65 @@
+GRUPO TICORD — VERCEL
+======================
+
+Este projeto foi adaptado para funcionar no Vercel.
+
+ESTRUTURA
+---------
+- index.html, contato.html, admin.html, etc. → páginas do site
+- assets/ → logos e imagens
+- api/enviar.js → recebe o formulário
+- api/envios.js → lista os formulários (admin)
+- api/envios/[id].js → exclui um formulário (admin)
+- lib/storage.js → armazenamento persistente no Vercel Blob
+- vercel.json → configuração do projeto
+- package.json → dependência do Vercel Blob
+
+IMPORTANTE: POR QUE NÃO USAMOS data/envios.json NO VERCEL?
+----------------------------------------------------------
+O sistema original salvava os formulários diretamente em um arquivo JSON.
+Em funções serverless do Vercel, o sistema de arquivos não deve ser usado como
+banco persistente. Por isso, os formulários agora são salvos em um Vercel Blob
+privado.
+
+COMO FAZER O DEPLOY
+-------------------
+1. Entre na Vercel e crie um novo projeto.
+2. Importe esta pasta/ZIP.
+3. O Vercel detectará o package.json. Não é necessário escolher Next.js.
+4. Depois que o projeto estiver criado, abra Storage no projeto.
+5. Crie/conecte um Vercel Blob Store privado ao projeto.
+   Ao conectar o store, o Vercel fornece a autenticação necessária para o SDK.
+6. Em Settings → Environment Variables, crie:
+      ADMIN_SENHA = SUA_SENHA_FORTE
+   Use a mesma senha no painel /admin.
+7. Faça um novo deploy/redeploy.
+
+Depois disso:
+- / → página inicial
+- /contato.html → formulário
+- /admin.html → painel administrativo
+
+A senha do /admin NÃO fica escrita no HTML.
+
+DESENVOLVIMENTO LOCAL
+---------------------
+Para usar o servidor local antigo adaptado:
+    ADMIN_SENHA=minha-senha node server.cjs
+
+Para testar as funções do Vercel localmente:
+    npm install
+    npm run dev
+
+Observação: as funções da versão Vercel usam Blob. Para testar o armazenamento
+localmente, conecte o projeto à Vercel e baixe as variáveis com:
+    vercel env pull .env.local
+
+DADOS EXISTENTES
+----------------
+O arquivo data/envios.json foi mantido apenas como cópia dos dados locais.
+Os novos envios feitos no Vercel serão gravados no Blob, não nesse arquivo.
+
+SEGURANÇA
+---------
+Troque obrigatoriamente a senha padrão antes de publicar.
+Nunca coloque BLOB_READ_WRITE_TOKEN em HTML ou JavaScript do navegador.

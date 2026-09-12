@@ -1,0 +1,16 @@
+{
+  "name": "grupo-ticord",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site do Grupo Ticord adaptado para Vercel",
+  "dependencies": {
+    "@vercel/blob": "^2.6.1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  }
+}
